@@ -1,0 +1,228 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>S-EDUCATION • Ecosystem</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <style>
+        :root {
+            --primary: #6366f1;
+            --accent: #a855f7;
+            --bg: #030712;
+        }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background: var(--bg);
+            color: #f8fafc;
+            overflow: hidden; /* Khóa cuộn để tạo cảm giác App */
+            height: 100vh;
+            width: 100vw;
+        }
+
+        .mesh-bg {
+            position: fixed;
+            top: 0; left: 0; width: 100%; height: 100%;
+            z-index: -1;
+            background-color: #030712;
+            background-image: 
+                radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 50%), 
+                radial-gradient(at 100% 0%, rgba(168, 85, 247, 0.15) 0px, transparent 50%), 
+                radial-gradient(at 100% 100%, rgba(16, 185, 129, 0.1) 0px, transparent 50%), 
+                radial-gradient(at 0% 100%, rgba(244, 114, 182, 0.1) 0px, transparent 50%);
+            filter: blur(80px);
+        }
+
+        /* Container chính bao phủ toàn màn hình */
+        .ecosystem-container {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        /* Nút bấm kiểu Card bay */
+        .btn-card {
+            position: absolute;
+            width: 300px;
+            padding: 1.8rem;
+            background: rgba(15, 23, 42, 0.7);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px); /* Hỗ trợ Safari/Cốc Cốc */
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 2rem;
+            transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+            box-shadow: 0 20px 40px rgba(0,0,0,0.4);
+            cursor: pointer;
+            z-index: 10;
+            
+            /* QUAN TRỌNG: Khóa không cho hiệu ứng tràn ra ngoài */
+            overflow: hidden; 
+            /* Ép trình duyệt render GPU để mượt hơn */
+            transform: translateZ(0); 
+        }
+
+
+        .btn-card:hover {
+            transform: translateY(-10px) scale(1.03) translateZ(0);
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(15, 23, 42, 0.85);
+            box-shadow: 0 0 40px rgba(99, 102, 241, 0.2);
+        }
+
+        /* Hiệu ứng Quét sáng (Shimmer) - Đã sửa lỗi tràn */
+        .btn-card::after {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -150%; /* Bắt đầu xa hơn bên trái */
+            width: 100%; /* Tăng độ rộng dải sáng cho mượt */
+            height: 100%;
+            background: linear-gradient(
+                90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.08), 
+                rgba(255, 255, 255, 0.15), 
+                rgba(255, 255, 255, 0.08), 
+                transparent
+            );
+            transform: skewX(-20deg); /* Nghiêng dải sáng cho đẹp */
+            animation: shimmer 5s infinite; /* Chỉnh thời gian chậm lại cho sang */
+        }
+
+        @keyframes shimmer {
+            0% { left: -150%; }
+            30%, 100% { left: 150%; } /* Chạy sang phải rồi nghỉ một lúc mới lặp lại */
+        }
+
+        /* Vị trí 4 góc trên PC */
+        @media (min-width: 1024px) {
+            .pos-tl { top: 15%; left: 10%; }
+            .pos-tr { top: 15%; right: 10%; }
+            .pos-bl { bottom: 20%; left: 10%; }
+            .pos-br { bottom: 20%; right: 10%; }
+            
+            /* Đường kẻ nối (Trang trí) */
+            .line-decor {
+                position: absolute;
+                background: linear-gradient(to right, transparent, rgba(99, 102, 241, 0.1), transparent);
+                height: 1px;
+                z-index: 1;
+            }
+        }
+
+        /* Responsive cho điện thoại (Chuyển về dạng lưới 2x2) */
+        @media (max-width: 1023px) {
+            .ecosystem-container {
+                flex-direction: column;
+                overflow-y: auto;
+                padding: 100px 20px;
+                justify-content: flex-start;
+            }
+            .btn-card {
+                position: relative !important;
+                width: 100%;
+                margin-bottom: 1rem;
+                top: auto !important; bottom: auto !important; left: auto !important; right: auto !important;
+            }
+            .center-logo {
+                order: -1;
+                margin-bottom: 40px;
+            }
+            body { overflow-y: auto; }
+        }
+
+        .dot-signal {
+            width: 10px; height: 10px;
+            border-radius: 50%;
+            margin-bottom: 12px;
+        }
+
+        /* Animation cho toàn trang */
+        .fade-in { animation: fadeIn 1s ease-out; }
+        @keyframes fadeIn { from { opacity: 0; transform: scale(0.9); } to { opacity: 1; transform: scale(1); } }
+    </style>
+</head>
+<body>
+
+    <div class="mesh-bg"></div>
+
+    <div class="ecosystem-container p-4">
+        
+        <!-- TRUNG TÂM: LOGO & TÊN -->
+        <div class="center-logo text-center z-20 fade-in">
+            <div class="relative inline-block mb-6">
+                <div class="absolute -inset-4 bg-indigo-500/20 rounded-full blur-3xl animate-pulse"></div>
+                <img src="https://i.ibb.co/YT1wCbHx/S-EDUCATION.png" 
+                     class="relative w-24 h-24 lg:w-32 lg:h-32 mx-auto rounded-[2.5rem] border border-white/20 shadow-2xl object-cover">
+            </div>
+            <h1 class="text-4xl lg:text-6xl font-black italic tracking-tighter uppercase text-white mb-2">
+                S-EDUCATION
+            </h1>
+            <p class="text-[10px] lg:text-[12px] font-black tracking-[8px] text-indigo-400 uppercase opacity-80">
+                Digital Ecosystem
+            </p>
+        </div>
+
+        <!-- 4 NÚT Ở 4 GÓC -->
+        
+        <!-- GÓC TRÊN TRÁI -->
+        <a href="https://s-check.vercel.app/" class="btn-card pos-tl fade-in" style="animation-delay: 0.2s">
+            <div class="dot-signal bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.6)]"></div>
+            <h3 class="text-white font-black text-sm uppercase mb-1">S-CHECK</h3>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG ĐIỂM DANH TỰ ĐỘNG</p>
+            <div class="mt-4 flex justify-end">
+                <i class="fa-solid fa-arrow-right-long text-indigo-500"></i>
+            </div>
+        </a>
+
+        <!-- GÓC TRÊN PHẢI -->
+        <a href="https://s-votes.vercel.app/" class="btn-card pos-tr fade-in" style="animation-delay: 0.4s">
+            <div class="dot-signal bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.6)]"></div>
+            <h3 class="text-white font-black text-sm uppercase mb-1">S-VOTES</h3>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG BÌNH CHỌN TRỰC TUYẾN</p>
+            <div class="mt-4 flex justify-end">
+                <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
+            </div>
+        </a>
+
+        <!-- GÓC DƯỚI TRÁI -->
+        <a href="https://s-stickquiz.click/" class="btn-card pos-bl fade-in" style="animation-delay: 0.6s">
+            <div class="dot-signal bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.6)]"></div>
+            <h3 class="text-white font-black text-sm uppercase mb-1">S-STICK Quiz</h3>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG THI TRẮC NGHIỆM TRỰC TUYẾN</p>
+            <div class="mt-4 flex justify-end">
+                <i class="fa-solid fa-arrow-right-long text-orange-500"></i>
+            </div>
+        </a>
+
+        <!-- GÓC DƯỚI PHẢI -->
+        <a href="https://s-pocket.vercel.app/" class="btn-card pos-br fade-in" style="animation-delay: 0.8s">
+            <div class="dot-signal bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.6)]"></div>
+            <h3 class="text-white font-black text-sm uppercase mb-1">S-POCKET</h3>
+            <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG LƯU TRỮ TÀI LIỆU SỐ</p>
+            <div class="mt-4 flex justify-end">
+                <i class="fa-solid fa-arrow-right-long text-emerald-500"></i>
+            </div>
+        </a>
+
+    </div>
+
+<!-- THANH BĂNG CỐ ĐỊNH DƯỚI ĐÁY MÀN HÌNH -->
+<div class="fixed bottom-0 left-0 right-0 bg-slate-950/40 backdrop-blur-md border-t border-white/5 py-1.5 z-[9999] pointer-events-none">
+    <p class="text-[9px] text-slate-500/80 uppercase tracking-[2px] text-center flex items-center justify-center gap-2">
+        <span>© 2026</span> 
+        <span class="w-[1px] h-2 bg-white/10"></span> 
+        <span>Thiết kế bởi <b class="text-indigo-400/70 font-extrabold">Cao Nguyễn Hồng Phi</b></span>
+    </p>
+</div>
+
+</body>
+</html>
