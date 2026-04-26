@@ -71,20 +71,28 @@
             padding: 1.8rem;
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px); /* Hỗ trợ Safari/Cốc Cốc */
+            -webkit-backdrop-filter: blur(20px);
             border: 1px solid rgba(255, 255, 255, 0.08);
             border-radius: 2rem;
             transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
             box-shadow: 0 20px 40px rgba(0,0,0,0.4);
             cursor: pointer;
             z-index: 10;
-            
-            /* QUAN TRỌNG: Khóa không cho hiệu ứng tràn ra ngoài */
-            overflow: hidden; 
-            /* Ép trình duyệt render GPU để mượt hơn */
-            transform: translateZ(0); 
+            overflow: hidden;
+            transform: translateZ(0);
+
+            /* BỔ SUNG THÊM 2 DÒNG NÀY */
+            min-height: 180px; /* Giúp các card trên PC có độ cao bằng nhau cho đẹp */
+            display: flex;
+            flex-direction: column;
         }
 
+        .arrow-wrapper {
+            position: absolute;
+            bottom: 1.5rem;
+            right: 1.8rem;
+            margin-top: 0 !important;
+        }
 
         .btn-card:hover {
             transform: translateY(-10px) scale(1.03) translateZ(0);
@@ -194,7 +202,7 @@
             <div class="dot-signal bg-purple-500 shadow-[0_0_15px_rgba(168,85,247,0.6)]"></div>
             <h3 class="text-white font-black text-sm uppercase mb-1">S-CHECK</h3>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG ĐIỂM DANH TỰ ĐỘNG</p>
-            <div class="mt-4 flex justify-end">
+            <div class="arrow-wrapper">
                 <i class="fa-solid fa-arrow-right-long text-indigo-500"></i>
             </div>
         </a>
@@ -204,7 +212,7 @@
             <div class="dot-signal bg-cyan-400 shadow-[0_0_15px_rgba(34,211,238,0.6)]"></div>
             <h3 class="text-white font-black text-sm uppercase mb-1">S-VOTES</h3>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG BÌNH CHỌN TRỰC TUYẾN</p>
-            <div class="mt-4 flex justify-end">
+            <div class="arrow-wrapper">
                 <i class="fa-solid fa-arrow-right-long text-cyan-400"></i>
             </div>
         </a>
@@ -214,7 +222,7 @@
             <div class="dot-signal bg-orange-500 shadow-[0_0_15px_rgba(249,115,22,0.6)]"></div>
             <h3 class="text-white font-black text-sm uppercase mb-1">S-STICK Quiz</h3>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG THI TRẮC NGHIỆM TRỰC TUYẾN</p>
-            <div class="mt-4 flex justify-end">
+            <div class="arrow-wrapper">
                 <i class="fa-solid fa-arrow-right-long text-orange-500"></i>
             </div>
         </a>
@@ -224,7 +232,7 @@
             <div class="dot-signal bg-emerald-500 shadow-[0_0_15px_rgba(16,185,129,0.6)]"></div>
             <h3 class="text-white font-black text-sm uppercase mb-1">S-LEXIS</h3>
             <p class="text-[10px] text-slate-400 font-bold uppercase tracking-widest">HỆ THỐNG GIẢI PHẪU VÀ TỐI ƯU HÓA NGÔN NGỮ IELTS TRỰC TUYẾN</p>
-            <div class="mt-4 flex justify-end">
+            <div class="arrow-wrapper">
                 <i class="fa-solid fa-arrow-right-long text-emerald-500"></i>
             </div>
         </a>
