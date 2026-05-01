@@ -1,4 +1,4 @@
-const CACHE_NAME = 's-education-v1';
+const CACHE_NAME = 's-education';
 const assets = [
   './',
   './index.html',
