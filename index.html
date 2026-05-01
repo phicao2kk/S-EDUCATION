@@ -113,8 +113,15 @@
             justify-content: center;
         }
 
-        .btn-card {
-            width: 210px; /* Chiều rộng card cố định để nội dung bên trong đẹp */
+.btn-card {
+            width: 210px;
+            min-height: 110px; /* Đảm bảo các nút cao bằng nhau */
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            position: relative; /* Bắt buộc để định vị tia sáng */
+            overflow: hidden;   /* Bắt buộc để cắt tia sáng thừa */
+            
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -124,7 +131,36 @@
             text-decoration: none;
             transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
             box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            transform: translate(-50%, -50%); /* Căn tâm card vào điểm quỹ đạo */
+            transform: translate(-50%, -50%);
+        }
+
+        /* Tạo tia sáng quét qua */
+        .btn-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: -150%; /* Bắt đầu từ ngoài bên trái */
+            width: 50%;
+            height: 100%;
+            background: linear-gradient(
+                to right,
+                transparent,
+                rgba(255, 255, 255, 0.2), /* Màu tia sáng */
+                transparent
+            );
+            transform: skewX(-25deg); /* Làm tia sáng nghiêng đi cho đẹp */
+            transition: 0.75s;
+        }
+
+        /* Hiệu ứng khi di chuột vào (Hover) */
+        .btn-card:hover::before {
+            left: 150%; /* Tia sáng chạy sang bên phải */
+        }
+
+        .btn-card:hover {
+            transform: translate(-50%, -60%) scale(1.05);
+            border-color: rgba(99, 102, 241, 0.5);
+            background: rgba(30, 41, 59, 0.9);
         }
 
         /* Công thức toán học chia 7 góc đều */
@@ -155,13 +191,21 @@
             .logo-img { width: 100px; height: 100px; }
             .brand-name { font-size: 1.8rem; }
             .orbit { position: relative; left: auto; top: auto; transform: none !important; width: 100%; }
-            .btn-card { position: relative; width: 100%; max-width: 400px; transform: none !important; margin: 0 auto; }
+            .btn-card { 
+                position: relative; 
+                width: 100%; 
+                max-width: 400px; 
+                transform: none !important; 
+                margin: 0 auto;
+                min-height: 90px; /* Mobile có thể cho thấp xuống một chút hoặc giữ nguyên 105px */
+            }
             .btn-card:hover { transform: translateY(-5px) scale(1.02); }
         }
 
         /* HIỆU ỨNG VÀO TRANG */
         .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        
     </style>
 </head>
 <body>
