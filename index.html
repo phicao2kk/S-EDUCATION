@@ -1,6 +1,19 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
+
+    <!-- Kết nối PWA -->
+    <link rel="manifest" href="manifest.json">
+    <script>
+        if ('serviceWorker' in navigator) {
+            window.addEventListener('load', () => {
+                navigator.serviceWorker.register('sw.js')
+                    .then(reg => console.log('S-EDUCATION PWA Ready!'))
+                    .catch(err => console.log('PWA Error', err));
+            });
+        }
+    </script>
+    
     <!-- 1. Icon cho iPhone/iPad (iOS) -->
     <link rel="apple-touch-icon" href="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png">
 
