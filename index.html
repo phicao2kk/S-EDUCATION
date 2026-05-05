@@ -6,7 +6,7 @@
     <meta http-equiv="Expires" content="0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>S-EDUCATION • Ecosystem Heptagon</title>
+    <title>S-EDUCATION • Ecosystem Octagon</title>
 
     <link rel="manifest" href="manifest.json">
     <script>
@@ -28,8 +28,8 @@
     <style>
         :root { 
             --bg: #030712; 
-            /* Bán kính vòng quay: tự co dãn nhưng cực kỳ cân đối */
-            --radius: 38vmin; 
+            /* Tăng nhẹ bán kính để 8 nút không bị quá khít nhau */
+            --radius: 39vmin; 
         }
         body {
             font-family: 'Plus Jakarta Sans', sans-serif;
@@ -49,7 +49,6 @@
             filter: blur(80px);
         }
 
-        /* Container tổng */
         .ecosystem-viewport {
             position: relative;
             width: 100vw;
@@ -60,7 +59,6 @@
             z-index: 10;
         }
 
-        /* KHU VỰC TRUNG TÂM - TUYỆT ĐỐI KHÔNG BỊ BÓP */
         .center-hub {
             position: absolute;
             z-index: 100;
@@ -68,27 +66,26 @@
             display: flex;
             flex-direction: column;
             align-items: center;
-            width: auto; /* Để tự nở theo nội dung */
         }
 
         .logo-img {
-            width: 140px; /* Cố định chiều rộng */
-            height: 140px; /* Cố định chiều cao */
-            object-fit: contain; /* Chống móp méo hình ảnh */
+            width: 130px;
+            height: 130px;
+            object-fit: contain;
             border-radius: 2.5rem;
             border: 1px solid rgba(255, 255, 255, 0.15);
             box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
-            margin-bottom: 1.5rem;
+            margin-bottom: 1.2rem;
             background: var(--bg);
         }
 
         .brand-name {
-            font-size: 2.5rem;
+            font-size: 2.2rem;
             font-weight: 800;
             font-style: italic;
             text-transform: uppercase;
             letter-spacing: -1px;
-            white-space: nowrap; /* Chống co chữ, chống xuống hàng */
+            white-space: nowrap;
             margin: 0;
             line-height: 1;
         }
@@ -104,7 +101,6 @@
             white-space: nowrap;
         }
 
-        /* ĐỊNH VỊ NÚT THEO HÌNH THẤT GIÁC */
         .orbit {
             position: absolute;
             left: 50%; top: 50%;
@@ -113,15 +109,14 @@
             justify-content: center;
         }
 
-.btn-card {
-            width: 210px;
-            min-height: 110px; /* Đảm bảo các nút cao bằng nhau */
+        .btn-card {
+            width: 200px;
+            min-height: 105px;
             display: flex;
             flex-direction: column;
             justify-content: center;
-            position: relative; /* Bắt buộc để định vị tia sáng */
-            overflow: hidden;   /* Bắt buộc để cắt tia sáng thừa */
-            
+            position: relative;
+            overflow: hidden;
             background: rgba(15, 23, 42, 0.7);
             backdrop-filter: blur(20px);
             -webkit-backdrop-filter: blur(20px);
@@ -134,60 +129,51 @@
             transform: translate(-50%, -50%);
         }
 
-        /* Tạo tia sáng quét qua */
         .btn-card::before {
             content: "";
             position: absolute;
             top: 0;
-            left: -150%; /* Bắt đầu từ ngoài bên trái */
+            left: -150%;
             width: 50%;
             height: 100%;
-            background: linear-gradient(
-                to right,
-                transparent,
-                rgba(255, 255, 255, 0.2), /* Màu tia sáng */
-                transparent
-            );
-            transform: skewX(-25deg); /* Làm tia sáng nghiêng đi cho đẹp */
+            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
+            transform: skewX(-25deg);
             transition: 0.75s;
         }
 
-        /* Hiệu ứng khi di chuột vào (Hover) */
         .btn-card:hover::before {
-            left: 150%; /* Tia sáng chạy sang bên phải */
+            left: 150%;
         }
 
-        .btn-card:hover {
-            transform: translate(-50%, -60%) scale(1.05);
-            border-color: rgba(99, 102, 241, 0.5);
-            background: rgba(30, 41, 59, 0.9);
-        }
-
-        /* Công thức toán học chia 7 góc đều */
+        /* CHIA GÓC CHO 8 NÚT (Mỗi nút cách nhau 45 độ) */
         .n1 { transform: rotate(0deg) translateY(calc(-1 * var(--radius))) rotate(0deg); }
-        .n2 { transform: rotate(51.42deg) translateY(calc(-1 * var(--radius))) rotate(-51.42deg); }
-        .n3 { transform: rotate(102.84deg) translateY(calc(-1 * var(--radius))) rotate(-102.84deg); }
-        .n4 { transform: rotate(154.26deg) translateY(calc(-1 * var(--radius))) rotate(-154.26deg); }
-        .n5 { transform: rotate(205.68deg) translateY(calc(-1 * var(--radius))) rotate(-205.68deg); }
-        .n6 { transform: rotate(257.1deg) translateY(calc(-1 * var(--radius))) rotate(-257.1deg); }
-        .n7 { transform: rotate(308.52deg) translateY(calc(-1 * var(--radius))) rotate(-308.52deg); }
+        .n2 { transform: rotate(45deg) translateY(calc(-1 * var(--radius))) rotate(-45deg); }
+        .n3 { transform: rotate(90deg) translateY(calc(-1 * var(--radius))) rotate(-90deg); }
+        .n4 { transform: rotate(135deg) translateY(calc(-1 * var(--radius))) rotate(-135deg); }
+        .n5 { transform: rotate(180deg) translateY(calc(-1 * var(--radius))) rotate(-180deg); }
+        .n6 { transform: rotate(225deg) translateY(calc(-1 * var(--radius))) rotate(-225deg); }
+        .n7 { transform: rotate(270deg) translateY(calc(-1 * var(--radius))) rotate(-270deg); }
+        .n8 { transform: rotate(315deg) translateY(calc(-1 * var(--radius))) rotate(-315deg); }
+
+        .n2, .n4, .n6, .n8 {
+            --radius: 50vmin; 
+        }
 
         .btn-card:hover {
-            transform: translate(-50%, -60%) scale(1.08); /* Bay lên nhẹ khi hover */
+            transform: translate(-50%, -55%) scale(1.06);
             background: rgba(30, 41, 59, 0.9);
             border-color: rgba(99, 102, 241, 0.5);
             z-index: 200;
         }
 
-        .dot { width: 10px; height: 10px; border-radius: 50%; margin-bottom: 8px; }
-        .btn-title { color: white; font-weight: 800; font-size: 14px; margin-bottom: 2px; text-transform: uppercase; }
-        .btn-desc { color: #94a3b8; font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; }
+        .dot { width: 9px; height: 9px; border-radius: 50%; margin-bottom: 8px; }
+        .btn-title { color: white; font-weight: 800; font-size: 13px; margin-bottom: 2px; text-transform: uppercase; }
+        .btn-desc { color: #94a3b8; font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
 
-        /* RESPONSIVE CHO MOBILE */
         @media (max-width: 1024px) {
             body { overflow-y: auto; display: block; }
-            .ecosystem-viewport { display: flex; flex-direction: column; height: auto; padding: 80px 20px 50px; gap: 15px; }
-            .center-hub { position: relative; margin-bottom: 40px; transform: none !important; }
+            .ecosystem-viewport { display: flex; flex-direction: column; height: auto; padding: 60px 20px 80px; gap: 12px; }
+            .center-hub { position: relative; margin-bottom: 30px; transform: none !important; }
             .logo-img { width: 100px; height: 100px; }
             .brand-name { font-size: 1.8rem; }
             .orbit { position: relative; left: auto; top: auto; transform: none !important; width: 100%; }
@@ -197,15 +183,13 @@
                 max-width: 400px; 
                 transform: none !important; 
                 margin: 0 auto;
-                min-height: 90px; /* Mobile có thể cho thấp xuống một chút hoặc giữ nguyên 105px */
+                min-height: 85px;
             }
             .btn-card:hover { transform: translateY(-5px) scale(1.02); }
         }
 
-        /* HIỆU ỨNG VÀO TRANG */
         .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
         @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
-        
     </style>
 </head>
 <body>
@@ -214,7 +198,7 @@
 
     <div class="ecosystem-viewport">
         
-        <!-- TRUNG TÂM: LOGO & TÊN (ĐÃ FIX CỨNG TỶ LỆ) -->
+        <!-- TRUNG TÂM -->
         <div class="center-hub fade-in">
             <div class="relative inline-block">
                 <div class="absolute -inset-10 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
@@ -224,7 +208,7 @@
             <p class="sub-brand">Digital Ecosystem</p>
         </div>
 
-        <!-- 7 NÚT DỊCH VỤ DÀN HÌNH THẤT GIÁC -->
+        <!-- 8 NÚT DỊCH VỤ -->
         <div class="orbit n1">
             <a href="https://s-check.vercel.app/" class="btn-card">
                 <div class="dot bg-purple-500 shadow-[0_0_10px_#a855f7]"></div>
@@ -261,7 +245,7 @@
             <a href="https://s-vanhocvn.vercel.app/" class="btn-card">
                 <div class="dot bg-pink-500 shadow-[0_0_10px_#ec4899]"></div>
                 <div class="btn-title">S-VANHOC VIETNAM</div>
-                <div class="btn-desc">Phân tích Cấu trúc & Luận điểm văn học</div>
+                <div class="btn-desc">Phân tích cấu trúc luận điểm</div>
             </a>
         </div>
 
@@ -269,7 +253,7 @@
             <a href="https://s-champ.vercel.app/" class="btn-card">
                 <div class="dot bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div> 
                 <div class="btn-title">S-CHAMP</div>
-                <div class="btn-desc">Hệ thống quản lý và chia bảng giải đấu chuyên nghiệp</div>
+                <div class="btn-desc">Quản lý giải đấu chuyên nghiệp</div>
             </a>
         </div>
 
@@ -281,20 +265,27 @@
             </a>
         </div>
 
+        <!-- NÚT THỨ 8 MỚI THÊM -->
+        <div class="orbit n8">
+            <a href="#" class="btn-card">
+                <div class="dot bg-red-500 shadow-[0_0_10px_#ef4444]"></div>
+                <div class="btn-title">S-VOICE</div>
+                <div class="btn-desc">Hệ thống luyện nói Tiếng Anh</div>
+            </a>
+        </div>
+
     </div>
 
-<!-- THANH BĂNG CỐ ĐỊNH DƯỚI ĐÁY MÀN HÌNH -->
-<div class="fixed bottom-0 left-0 right-0 bg-slate-950/40 backdrop-blur-md border-t border-white/5 py-1.5 z-[9999] pointer-events-none">
-    <p class="text-[9px] text-slate-500/80 uppercase tracking-[2px] text-center flex items-center justify-center gap-2">
-        <span>© 2026</span> 
-        <span class="w-[1px] h-2 bg-white/10"></span> 
-        <span>Thiết kế bởi <b class="text-indigo-400/70 font-extrabold">Cao Nguyễn Hồng Phi</b></span>
-    </p>
-    
-</div>
+    <!-- THANH BĂNG CỐ ĐỊNH DƯỚI ĐÁY -->
+    <div class="fixed bottom-0 left-0 right-0 bg-slate-950/40 backdrop-blur-md border-t border-white/5 py-1.5 z-[9999] pointer-events-none">
+        <p class="text-[9px] text-slate-500/80 uppercase tracking-[2px] text-center flex items-center justify-center gap-2">
+            <span>© 2026</span> 
+            <span class="w-[1px] h-2 bg-white/10"></span> 
+            <span>Thiết kế bởi <b class="text-indigo-400/70 font-extrabold">Cao Nguyễn Hồng Phi</b></span>
+        </p>
+    </div>
 
     <script>
-        // Bảo vệ F12
         document.addEventListener('keydown', e => {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) {
                 window.location.href = "about:blank";
