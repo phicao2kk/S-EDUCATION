@@ -1,290 +1,376 @@
 <!DOCTYPE html>
 <html lang="vi">
 <head>
-    <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="Pragma" content="no-cache">
-    <meta http-equiv="Expires" content="0">
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
-    <title>S-EDUCATION • Ecosystem Octagon</title>
-
-    <link rel="manifest" href="manifest.json">
-    <script>
-        if ('serviceWorker' in navigator) {
-            navigator.serviceWorker.register('sw.js');
-        }
-    </script>
-
-    <link rel="apple-touch-icon" href="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png">
+    <title>S-EDUCATION | Hệ sinh thái số</title>
     <link rel="icon" type="image/png" href="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png">
-    <meta name="apple-mobile-web-app-capable" content="yes">
-    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-    <meta name="theme-color" content="#030712">
+    <link rel="apple-touch-icon" href="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png">
+    <meta name="theme-color" content="#020617">
     
-    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;600;800&display=swap" rel="stylesheet">
-    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
-    <script src="https://cdn.tailwindcss.com"></script>
-
+    <!-- Font & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;14..32,500;14..32,700;14..32,800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    
     <style>
-        :root { 
-            --bg: #030712; 
-            /* Tăng nhẹ bán kính để 8 nút không bị quá khít nhau */
-            --radius: 39vmin; 
-        }
-        body {
-            font-family: 'Plus Jakarta Sans', sans-serif;
-            background: var(--bg);
-            color: #f8fafc;
+        * {
             margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background: #020617;
+            font-family: 'Inter', sans-serif;
+            color: #f1f5f9;
+            line-height: 1.5;
             overflow-x: hidden;
-            min-height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
         }
 
-        .mesh-bg {
-            position: fixed; top: 0; left: 0; width: 100%; height: 100%; z-index: -1;
-            background-image: radial-gradient(at 0% 0%, rgba(99, 102, 241, 0.15) 0px, transparent 40%), radial-gradient(at 100% 100%, rgba(168, 85, 247, 0.15) 0px, transparent 40%);
-            filter: blur(80px);
+        /* Nền gradient động */
+        .bg-aura {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -2;
+            background: radial-gradient(circle at 20% 30%, rgba(37, 99, 235, 0.2), rgba(2, 6, 23, 0.9)),
+                        radial-gradient(circle at 80% 70%, rgba(168, 85, 247, 0.2), transparent);
         }
 
-        .ecosystem-viewport {
+        /* Hiệu ứng hạt nhẹ (tùy chọn) */
+        .noise {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+            opacity: 0.08;
+            background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 200 200' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noiseFilter'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.65' numOctaves='3' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noiseFilter)'/%3E%3C/svg%3E");
+        }
+
+        /* Container chính */
+        .container {
+            max-width: 1300px;
+            margin: 0 auto;
+            padding: 3rem 2rem 5rem;
             position: relative;
-            width: 100vw;
-            height: 100vh;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            z-index: 10;
+            z-index: 2;
         }
 
-        .center-hub {
-            position: absolute;
-            z-index: 100;
+        /* Header - Logo cực nổi bật */
+        .hero {
             text-align: center;
-            display: flex;
-            flex-direction: column;
-            align-items: center;
+            margin-bottom: 4rem;
+            position: relative;
+        }
+
+        .logo-wrapper {
+            display: inline-block;
+            position: relative;
+            margin-bottom: 1.2rem;
+        }
+
+        /* Vòng sáng xoay quanh logo */
+        .glow-ring {
+            position: absolute;
+            inset: -20px;
+            border-radius: 50%;
+            background: conic-gradient(from 0deg, #3b82f6, #a855f7, #ec4899, #3b82f6);
+            opacity: 0.6;
+            filter: blur(20px);
+            animation: spin 4s linear infinite;
+            z-index: -1;
+        }
+
+        .glow-ring-2 {
+            position: absolute;
+            inset: -12px;
+            border-radius: 50%;
+            background: conic-gradient(from 180deg, #06b6d4, #8b5cf6, #d946ef, #06b6d4);
+            opacity: 0.8;
+            filter: blur(15px);
+            animation: spin-reverse 5s linear infinite;
+            z-index: -1;
+        }
+
+        @keyframes spin {
+            100% { transform: rotate(360deg); }
+        }
+        @keyframes spin-reverse {
+            100% { transform: rotate(-360deg); }
         }
 
         .logo-img {
-            width: 130px;
-            height: 130px;
+            width: 140px;
+            height: 140px;
             object-fit: contain;
             border-radius: 2.5rem;
-            border: 1px solid rgba(255, 255, 255, 0.15);
-            box-shadow: 0 0 50px rgba(99, 102, 241, 0.2);
-            margin-bottom: 1.2rem;
-            background: var(--bg);
+            background: rgba(2, 6, 23, 0.6);
+            backdrop-filter: blur(4px);
+            border: 2px solid rgba(255, 255, 255, 0.2);
+            box-shadow: 0 25px 40px -12px rgba(0, 0, 0, 0.5), 0 0 0 4px rgba(59, 130, 246, 0.2);
+            transition: transform 0.3s ease, box-shadow 0.3s;
         }
 
-        .brand-name {
-            font-size: 2.2rem;
+        .logo-img:hover {
+            transform: scale(1.02);
+            box-shadow: 0 30px 50px -15px black, 0 0 0 6px rgba(168, 85, 247, 0.4);
+        }
+
+        .brand {
+            margin-top: 1rem;
+        }
+
+        .brand h1 {
+            font-size: 3.2rem;
             font-weight: 800;
-            font-style: italic;
+            letter-spacing: -1.5px;
+            background: linear-gradient(135deg, #ffffff, #c7d2fe, #a78bfa);
+            background-size: 200% auto;
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            animation: shimmer 4s linear infinite;
+            margin-bottom: 0.25rem;
+        }
+
+        .brand p {
+            font-size: 0.9rem;
+            letter-spacing: 5px;
             text-transform: uppercase;
-            letter-spacing: -1px;
-            white-space: nowrap;
-            margin: 0;
-            line-height: 1;
-        }
-
-        .sub-brand {
-            font-size: 10px;
-            font-weight: 800;
-            letter-spacing: 6px;
             color: #818cf8;
-            text-transform: uppercase;
-            opacity: 0.8;
-            margin-top: 5px;
-            white-space: nowrap;
+            font-weight: 500;
+            text-shadow: 0 0 8px rgba(129, 140, 248, 0.4);
         }
 
-        .orbit {
-            position: absolute;
-            left: 50%; top: 50%;
-            display: flex;
-            align-items: center;
-            justify-content: center;
+        @keyframes shimmer {
+            0% { background-position: 0% 50%; }
+            100% { background-position: 200% 50%; }
         }
 
-        .btn-card {
-            width: 200px;
-            min-height: 105px;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+        /* Lưới card dịch vụ */
+        .services-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+            gap: 2rem;
+            margin-top: 2rem;
+        }
+
+        .service-card {
+            background: rgba(15, 23, 42, 0.55);
+            backdrop-filter: blur(14px);
+            border-radius: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            padding: 1.8rem 1.5rem;
+            transition: all 0.35s cubic-bezier(0.2, 0.9, 0.4, 1.1);
+            box-shadow: 0 20px 35px -12px rgba(0, 0, 0, 0.4);
             position: relative;
             overflow: hidden;
-            background: rgba(15, 23, 42, 0.7);
-            backdrop-filter: blur(20px);
-            -webkit-backdrop-filter: blur(20px);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: 1.2rem;
-            padding: 1.2rem;
-            text-decoration: none;
-            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-            box-shadow: 0 15px 35px rgba(0,0,0,0.5);
-            transform: translate(-50%, -50%);
         }
 
-        .btn-card::before {
+        .service-card::before {
             content: "";
             position: absolute;
             top: 0;
-            left: -150%;
-            width: 50%;
+            left: -100%;
+            width: 100%;
             height: 100%;
-            background: linear-gradient(to right, transparent, rgba(255, 255, 255, 0.15), transparent);
-            transform: skewX(-25deg);
-            transition: 0.75s;
+            background: linear-gradient(90deg, transparent, rgba(255,255,255,0.05), transparent);
+            transition: 0.5s;
         }
 
-        .btn-card:hover::before {
-            left: 150%;
+        .service-card:hover::before {
+            left: 100%;
         }
 
-        /* CHIA GÓC CHO 8 NÚT (Mỗi nút cách nhau 45 độ) */
-        .n1 { transform: rotate(0deg) translateY(calc(-1 * var(--radius))) rotate(0deg); }
-        .n2 { transform: rotate(45deg) translateY(calc(-1 * var(--radius))) rotate(-45deg); }
-        .n3 { transform: rotate(90deg) translateY(calc(-1 * var(--radius))) rotate(-90deg); }
-        .n4 { transform: rotate(135deg) translateY(calc(-1 * var(--radius))) rotate(-135deg); }
-        .n5 { transform: rotate(180deg) translateY(calc(-1 * var(--radius))) rotate(-180deg); }
-        .n6 { transform: rotate(225deg) translateY(calc(-1 * var(--radius))) rotate(-225deg); }
-        .n7 { transform: rotate(270deg) translateY(calc(-1 * var(--radius))) rotate(-270deg); }
-        .n8 { transform: rotate(315deg) translateY(calc(-1 * var(--radius))) rotate(-315deg); }
-
-        .n2, .n4, .n6, .n8 {
-            --radius: 50vmin; 
+        .service-card:hover {
+            transform: translateY(-8px);
+            background: rgba(30, 41, 59, 0.75);
+            border-color: rgba(129, 140, 248, 0.4);
+            box-shadow: 0 28px 40px -16px rgba(0, 0, 0, 0.6);
         }
 
-        .btn-card:hover {
-            transform: translate(-50%, -55%) scale(1.06);
-            background: rgba(30, 41, 59, 0.9);
-            border-color: rgba(99, 102, 241, 0.5);
-            z-index: 200;
+        /* Icon & tiêu đề */
+        .card-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            background: linear-gradient(145deg, #e2e8ff, #a5b4fc);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+            text-shadow: 0 2px 5px rgba(0,0,0,0.1);
         }
 
-        .dot { width: 9px; height: 9px; border-radius: 50%; margin-bottom: 8px; }
-        .btn-title { color: white; font-weight: 800; font-size: 13px; margin-bottom: 2px; text-transform: uppercase; }
-        .btn-desc { color: #94a3b8; font-weight: 600; font-size: 8px; text-transform: uppercase; letter-spacing: 0.5px; line-height: 1.2; }
+        .service-card h3 {
+            font-size: 1.7rem;
+            font-weight: 700;
+            letter-spacing: -0.3px;
+            margin-bottom: 0.6rem;
+            background: linear-gradient(to right, #f8fafc, #cbd5e1);
+            -webkit-background-clip: text;
+            background-clip: text;
+            color: transparent;
+        }
 
-        @media (max-width: 1024px) {
-            body { overflow-y: auto; display: block; }
-            .ecosystem-viewport { display: flex; flex-direction: column; height: auto; padding: 60px 20px 80px; gap: 12px; }
-            .center-hub { position: relative; margin-bottom: 30px; transform: none !important; }
-            .logo-img { width: 100px; height: 100px; }
-            .brand-name { font-size: 1.8rem; }
-            .orbit { position: relative; left: auto; top: auto; transform: none !important; width: 100%; }
-            .btn-card { 
-                position: relative; 
-                width: 100%; 
-                max-width: 400px; 
-                transform: none !important; 
-                margin: 0 auto;
-                min-height: 85px;
+        .service-card p {
+            font-size: 0.85rem;
+            color: #94a3b8;
+            font-weight: 500;
+            line-height: 1.4;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        /* Badge màu sắc riêng cho từng dịch vụ (dùng border-left hoặc dot) */
+        .card-dot {
+            width: 8px;
+            height: 8px;
+            border-radius: 20px;
+            display: inline-block;
+            margin-right: 8px;
+            background: #3b82f6;
+            box-shadow: 0 0 6px currentColor;
+        }
+
+        /* Footer */
+        .footer {
+            margin-top: 5rem;
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.06);
+            font-size: 0.7rem;
+            letter-spacing: 1px;
+            color: #4b5563;
+            font-weight: 500;
+        }
+
+        .footer span {
+            color: #6366f1;
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+            .container {
+                padding: 2rem 1.5rem 3rem;
             }
-            .btn-card:hover { transform: translateY(-5px) scale(1.02); }
+            .brand h1 {
+                font-size: 2.2rem;
+            }
+            .services-grid {
+                grid-template-columns: 1fr;
+                gap: 1.2rem;
+            }
+            .service-card {
+                padding: 1.4rem;
+            }
+            .service-card h3 {
+                font-size: 1.4rem;
+            }
+            .logo-img {
+                width: 110px;
+                height: 110px;
+            }
         }
 
-        .fade-in { animation: fadeIn 1s ease-out forwards; opacity: 0; }
-        @keyframes fadeIn { from { opacity: 0; transform: scale(0.98); } to { opacity: 1; transform: scale(1); } }
+        /* Animation fade-in */
+        .fade-up {
+            opacity: 0;
+            transform: translateY(30px);
+            animation: fadeUp 0.7s ease forwards;
+        }
+        @keyframes fadeUp {
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        /* Áp dụng delay cho từng card */
+        .service-card:nth-child(1) { animation-delay: 0.05s; }
+        .service-card:nth-child(2) { animation-delay: 0.1s; }
+        .service-card:nth-child(3) { animation-delay: 0.15s; }
+        .service-card:nth-child(4) { animation-delay: 0.2s; }
+        .service-card:nth-child(5) { animation-delay: 0.25s; }
+        .service-card:nth-child(6) { animation-delay: 0.3s; }
+        .service-card:nth-child(7) { animation-delay: 0.35s; }
     </style>
 </head>
 <body>
+    <div class="bg-aura"></div>
+    <div class="noise"></div>
 
-    <div class="mesh-bg"></div>
-
-    <div class="ecosystem-viewport">
-        
-        <!-- TRUNG TÂM -->
-        <div class="center-hub fade-in">
-            <div class="relative inline-block">
-                <div class="absolute -inset-10 bg-indigo-500/10 rounded-full blur-3xl animate-pulse"></div>
-                <img src="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png" class="logo-img relative" alt="Logo">
+    <div class="container">
+        <!-- Header logo siêu nổi bật -->
+        <div class="hero fade-up" style="animation-delay: 0s;">
+            <div class="logo-wrapper">
+                <div class="glow-ring"></div>
+                <div class="glow-ring-2"></div>
+                <img src="https://i.ibb.co/v6tm0zLD/S-EDUCATION.png" alt="S-EDUCATION Logo" class="logo-img">
             </div>
-            <h1 class="brand-name">S-EDUCATION</h1>
-            <p class="sub-brand">Digital Ecosystem</p>
+            <div class="brand">
+                <h1>S-EDUCATION</h1>
+                <p>DIGITAL ECOSYSTEM</p>
+            </div>
         </div>
 
-        <!-- 8 NÚT DỊCH VỤ -->
-        <div class="orbit n1">
-            <a href="https://s-check.vercel.app/" class="btn-card">
-                <div class="dot bg-purple-500 shadow-[0_0_10px_#a855f7]"></div>
-                <div class="btn-title">S-CHECK</div>
-                <div class="btn-desc">Hệ thống điểm danh tự động</div>
-            </a>
+        <!-- Lưới dịch vụ (dựa theo nội dung từ ảnh) -->
+        <div class="services-grid">
+            <!-- S-VOICE -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-microphone-alt"></i></div>
+                <h3>S-VOICE</h3>
+                <p><span class="card-dot" style="background: #ef4444; box-shadow:0 0 6px #ef4444;"></span> Hệ thống luyện nói Tiếng Anh</p>
+            </div>
+            <!-- S-CHECK -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-fingerprint"></i></div>
+                <h3>S-CHECK</h3>
+                <p><span class="card-dot" style="background: #8b5cf6; box-shadow:0 0 6px #8b5cf6;"></span> Hệ thống điểm danh tự động</p>
+            </div>
+            <!-- S-VOTES -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-poll"></i></div>
+                <h3>S-VOTES</h3>
+                <p><span class="card-dot" style="background: #3b82f6; box-shadow:0 0 6px #3b82f6;"></span> Bình chọn trực tuyến</p>
+            </div>
+            <!-- S-RANDOM -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-dice-d6"></i></div>
+                <h3>S-RANDOM</h3>
+                <p><span class="card-dot" style="background: #f59e0b; box-shadow:0 0 6px #f59e0b;"></span> Vòng quay may mắn</p>
+            </div>
+            <!-- S-STICK QUIZ -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-pen-fancy"></i></div>
+                <h3>S-STICK QUIZ</h3>
+                <p><span class="card-dot" style="background: #10b981; box-shadow:0 0 6px #10b981;"></span> Trắc nghiệm trực tuyến</p>
+            </div>
+            <!-- S-CHAMP -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-trophy"></i></div>
+                <h3>S-CHAMP</h3>
+                <p><span class="card-dot" style="background: #ec4899; box-shadow:0 0 6px #ec4899;"></span> Quản lý giải đấu chuyên nghiệp</p>
+            </div>
+            <!-- S-VANHOC VIETNAM -->
+            <div class="service-card fade-up">
+                <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                <h3>S-VANHOC VIETNAM</h3>
+                <p><span class="card-dot" style="background: #14b8a6; box-shadow:0 0 6px #14b8a6;"></span> Phân tích cấu trúc luận điểm</p>
+            </div>
         </div>
 
-        <div class="orbit n2">
-            <a href="https://s-votes.vercel.app/" class="btn-card">
-                <div class="dot bg-indigo-500 shadow-[0_0_10px_#6366f1]"></div>
-                <div class="btn-title">S-VOTES</div>
-                <div class="btn-desc">Bình chọn trực tuyến</div>
-            </a>
+        <!-- Footer -->
+        <div class="footer fade-up" style="animation-delay: 0.4s;">
+            © 2026 | THIẾT KẾ BỞI <span>CAO NGUYỄN HỒNG PHÍ</span>
         </div>
-
-        <div class="orbit n3">
-            <a href="https://s-stickquiz.vercel.app/" class="btn-card">
-                <div class="dot bg-orange-500 shadow-[0_0_10px_#f97316]"></div>
-                <div class="btn-title">S-STICK QUIZ</div>
-                <div class="btn-desc">Trắc nghiệm trực tuyến</div>
-            </a>
-        </div>
-
-        <div class="orbit n4">
-            <a href="https://s-lexis.vercel.app/" class="btn-card">
-                <div class="dot bg-emerald-500 shadow-[0_0_10px_#10b981]"></div>
-                <div class="btn-title">S-LEXIS</div>
-                <div class="btn-desc">Tối ưu ngôn ngữ IELTS</div>
-            </a>
-        </div>
-
-        <div class="orbit n5">
-            <a href="https://s-vanhocvn.vercel.app/" class="btn-card">
-                <div class="dot bg-pink-500 shadow-[0_0_10px_#ec4899]"></div>
-                <div class="btn-title">S-VANHOC VIETNAM</div>
-                <div class="btn-desc">Phân tích cấu trúc luận điểm</div>
-            </a>
-        </div>
-
-        <div class="orbit n6">
-            <a href="https://s-champ.vercel.app/" class="btn-card">
-                <div class="dot bg-cyan-400 shadow-[0_0_10px_#22d3ee]"></div> 
-                <div class="btn-title">S-CHAMP</div>
-                <div class="btn-desc">Quản lý giải đấu chuyên nghiệp</div>
-            </a>
-        </div>
-
-        <div class="orbit n7">
-            <a href="https://s-random.vercel.app/" class="btn-card">
-                <div class="dot bg-amber-400 shadow-[0_0_10px_#fbbf24]"></div>
-                <div class="btn-title">S-RANDOM</div>
-                <div class="btn-desc">Vòng quay may mắn</div>
-            </a>
-        </div>
-
-        <!-- NÚT THỨ 8 MỚI THÊM -->
-        <div class="orbit n8">
-            <a href="https://s-voice.vercel.app/" class="btn-card">
-                <div class="dot bg-red-500 shadow-[0_0_10px_#ef4444]"></div>
-                <div class="btn-title">S-VOICE</div>
-                <div class="btn-desc">Hệ thống luyện nói Tiếng Anh</div>
-            </a>
-        </div>
-
     </div>
 
-    <!-- THANH BĂNG CỐ ĐỊNH DƯỚI ĐÁY -->
-    <div class="fixed bottom-0 left-0 right-0 bg-slate-950/40 backdrop-blur-md border-t border-white/5 py-1.5 z-[9999] pointer-events-none">
-        <p class="text-[9px] text-slate-500/80 uppercase tracking-[2px] text-center flex items-center justify-center gap-2">
-            <span>© 2026</span> 
-            <span class="w-[1px] h-2 bg-white/10"></span> 
-            <span>Thiết kế bởi <b class="text-indigo-400/70 font-extrabold">Cao Nguyễn Hồng Phi</b></span>
-        </p>
-    </div>
-
+    <!-- Chống inspect (giữ nguyên so với yêu cầu cũ) -->
     <script>
         document.addEventListener('keydown', e => {
             if (e.keyCode === 123 || (e.ctrlKey && e.shiftKey && [73, 74, 67].includes(e.keyCode)) || (e.ctrlKey && e.keyCode === 85)) {
