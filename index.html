@@ -319,6 +319,7 @@
             }
         }
 
+        /* delay cho từng card, bao gồm cả S-STORES mới */
         .service-card:nth-child(1) { animation-delay: 0.05s; }
         .service-card:nth-child(2) { animation-delay: 0.1s; }
         .service-card:nth-child(3) { animation-delay: 0.15s; }
@@ -327,6 +328,7 @@
         .service-card:nth-child(6) { animation-delay: 0.3s; }
         .service-card:nth-child(7) { animation-delay: 0.35s; }
         .service-card:nth-child(8) { animation-delay: 0.4s; }
+        .service-card:nth-child(9) { animation-delay: 0.45s; } /* delay cho S-STORES */
     </style>
 </head>
 <body>
@@ -347,6 +349,7 @@
         </div>
 
         <div class="services-grid">
+            <!-- Các dịch vụ hiện có -->
             <div class="service-card fade-up" data-service-key="s-voice">
                 <div class="card-icon"><i class="fas fa-microphone-alt"></i></div>
                 <h3>S-VOICE</h3>
@@ -387,6 +390,13 @@
                 <h3>S-LEXIS</h3>
                 <p><span class="card-dot" style="background: #f97316; box-shadow:0 0 6px #f97316;"></span> Hệ thống từ vựng & tra cứu thông minh</p>
             </div>
+            
+            <!-- THÊM BUTTON MỚI: S-STORES với icon store, màu sắc riêng biệt -->
+            <div class="service-card fade-up" data-service-key="s-stores">
+                <div class="card-icon"><i class="fas fa-store"></i></div>
+                <h3>S-STORES</h3>
+                <p><span class="card-dot" style="background: #eab308; box-shadow:0 0 6px #eab308;"></span> Nền tảng tạo cửa hàng online miễn phí</p>
+            </div>
         </div>
 
         <div class="footer fade-up" style="animation-delay: 0.4s;">
@@ -396,6 +406,7 @@
 
     <script>
         (function() {
+            // Định nghĩa link cho tất cả service, bao gồm S-STORES
             const SERVICE_LINKS = {
                 's-voice': 'https://s-voice.vercel.app/',
                 's-check': 'https://s-check.vercel.app/',
@@ -404,31 +415,42 @@
                 's-stick-quiz': 'https://s-stickquiz.vercel.app/',
                 's-champ': 'https://s-champ.vercel.app/',
                 's-vanhoc-vietnam': 'https://s-vanhocvn.vercel.app/',
-                's-lexis': 'https://s-lexis.vercel.app/'
+                's-lexis': 'https://s-lexis.vercel.app/',
+                // Link cho S-STORES - có thể thay đổi thành link thật nếu cần
+                's-stores': 'https://s-stores.vercel.app/'
             };
 
             const cards = document.querySelectorAll('.service-card');
             if (cards.length === 0) return;
 
             cards.forEach(card => {
+                // Lấy data-service-key (ưu tiên thuộc tính data đã set)
                 let serviceKey = card.getAttribute('data-service-key');
                 if (!serviceKey) {
+                    // fallback: dùng nội dung h3 để xác định key
                     const titleElem = card.querySelector('h3');
                     if (titleElem) {
                         let rawTitle = titleElem.innerText.trim().toLowerCase();
+                        // Chuyển đổi S-STORES -> s-stores, S-VOICE -> s-voice, ...
                         serviceKey = rawTitle.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
                     }
                 }
+                
                 let targetUrl = SERVICE_LINKS[serviceKey];
                 if (!targetUrl) {
+                    // Dùng fallback an toàn nếu chưa config, nhưng ở đây đã config đủ cả 9
                     targetUrl = `https://s-education.vn/service/${serviceKey || 'default'}`;
                     console.warn(`Chưa định nghĩa link cho ${serviceKey}, dùng fallback: ${targetUrl}`);
                 }
+                // Gán data-url cho card
                 card.setAttribute('data-url', targetUrl);
+                
+                // Sự kiện click chuột trái -> chuyển hướng cùng tab
                 card.addEventListener('click', (event) => {
                     event.stopPropagation();
                     window.location.href = targetUrl;
                 });
+                // Sự kiện click chuột giữa (auxclick) -> mở tab mới
                 card.addEventListener('auxclick', (event) => {
                     if (event.button === 1) {
                         event.preventDefault();
@@ -441,6 +463,7 @@
 
     <script>
         (function antiInspect() {
+            // Chống mở devtools cơ bản
             document.addEventListener('keydown', e => {
                 const isF12 = (e.keyCode === 123);
                 const isDevTools = (e.ctrlKey && e.shiftKey && (e.keyCode === 73 || e.keyCode === 74 || e.keyCode === 67));
@@ -450,6 +473,7 @@
                     e.preventDefault();
                 }
             });
+            // Ngăn chặn menu chuột phải
             document.addEventListener('contextmenu', e => e.preventDefault());
         })();
     </script>
