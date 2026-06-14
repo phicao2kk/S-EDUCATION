@@ -182,7 +182,7 @@
             margin-top: 2rem;
         }
 
-        /* CARD GIỜ ĐÃ LÀ BUTTON CÓ LINK */
+        /* CARD GIỜ ĐÃ LÀ BUTTON CÓ LINK - Tất cả đều đồng nhất */
         .service-card {
             background: rgba(15, 23, 42, 0.55);
             backdrop-filter: blur(14px);
@@ -319,7 +319,7 @@
             }
         }
 
-        /* delay cho từng card, bao gồm cả S-STORES mới */
+        /* delay cho từng card - bao gồm S-WORDS mới (vị trí thứ 8 sau S-STORES) */
         .service-card:nth-child(1) { animation-delay: 0.05s; }
         .service-card:nth-child(2) { animation-delay: 0.1s; }
         .service-card:nth-child(3) { animation-delay: 0.15s; }
@@ -328,7 +328,7 @@
         .service-card:nth-child(6) { animation-delay: 0.3s; }
         .service-card:nth-child(7) { animation-delay: 0.35s; }
         .service-card:nth-child(8) { animation-delay: 0.4s; }
-        .service-card:nth-child(9) { animation-delay: 0.45s; } /* delay cho S-STORES */
+        .service-card:nth-child(9) { animation-delay: 0.45s; }  /* S-WORDS - hoàn toàn đồng nhất */
     </style>
 </head>
 <body>
@@ -385,6 +385,12 @@
                 <h3>S-STORES</h3>
                 <p><span class="card-dot" style="background: #eab308; box-shadow:0 0 6px #eab308;"></span> Nền tảng tạo cửa hàng online miễn phí</p>
             </div>
+            <!-- S-WORDS - Kho báu từ vựng · Học là nhớ - Đã được đồng bộ giao diện 100% với các card khác -->
+            <div class="service-card fade-up" data-service-key="s-words">
+                <div class="card-icon"><i class="fas fa-book-open"></i></div>
+                <h3>S-WORDS</h3>
+                <p><span class="card-dot" style="background: #06b6d4; box-shadow:0 0 6px #06b6d4;"></span> Kho báu từ vựng · Học là nhớ</p>
+            </div>
         </div>
 
         <div class="footer fade-up" style="animation-delay: 0.4s;">
@@ -394,7 +400,7 @@
 
     <script>
         (function() {
-            // Định nghĩa link cho tất cả service, bao gồm S-STORES
+            // Định nghĩa link cho tất cả service - bao gồm S-WORDS
             const SERVICE_LINKS = {
                 's-voice': 'https://s-voice.vercel.app/',
                 's-check': 'https://s-check.vercel.app/',
@@ -402,43 +408,37 @@
                 's-random': 'https://s-random.vercel.app/',
                 's-stick-quiz': 'https://s-stickquiz.vercel.app/',
                 's-champ': 'https://s-champ.vercel.app/',
-                's-vanhoc-vietnam': 'https://s-vanhocvn.vercel.app/',
-                's-lexis': 'https://s-lexis.vercel.app/',
-                // Link cho S-STORES - có thể thay đổi thành link thật nếu cần
-                's-stores': 'https://s-stores.vercel.app/'
+                's-stores': 'https://s-stores.vercel.app/',
+                // S-WORDS - đúng theo yêu cầu
+                's-words': 'https://s-words.vercel.app/'
             };
 
             const cards = document.querySelectorAll('.service-card');
             if (cards.length === 0) return;
 
             cards.forEach(card => {
-                // Lấy data-service-key (ưu tiên thuộc tính data đã set)
                 let serviceKey = card.getAttribute('data-service-key');
                 if (!serviceKey) {
-                    // fallback: dùng nội dung h3 để xác định key
                     const titleElem = card.querySelector('h3');
                     if (titleElem) {
                         let rawTitle = titleElem.innerText.trim().toLowerCase();
-                        // Chuyển đổi S-STORES -> s-stores, S-VOICE -> s-voice, ...
                         serviceKey = rawTitle.replace(/[^a-z0-9]+/g, '-').replace(/^-|-$/g, '');
                     }
                 }
                 
                 let targetUrl = SERVICE_LINKS[serviceKey];
                 if (!targetUrl) {
-                    // Dùng fallback an toàn nếu chưa config, nhưng ở đây đã config đủ cả 9
                     targetUrl = `https://s-education.vn/service/${serviceKey || 'default'}`;
                     console.warn(`Chưa định nghĩa link cho ${serviceKey}, dùng fallback: ${targetUrl}`);
                 }
-                // Gán data-url cho card
                 card.setAttribute('data-url', targetUrl);
                 
-                // Sự kiện click chuột trái -> chuyển hướng cùng tab
+                // Click chuột trái -> chuyển hướng cùng tab
                 card.addEventListener('click', (event) => {
                     event.stopPropagation();
                     window.location.href = targetUrl;
                 });
-                // Sự kiện click chuột giữa (auxclick) -> mở tab mới
+                // Click chuột giữa -> mở tab mới
                 card.addEventListener('auxclick', (event) => {
                     if (event.button === 1) {
                         event.preventDefault();
